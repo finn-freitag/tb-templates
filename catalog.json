@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-22T18:25:07Z",
+  "generated_at": "2026-11-22T18:29:55Z",
   "templates": [
     {
       "id": "almalinux-10",
@@ -449,7 +449,7 @@
         }
       },
       "params": {
-        "lxc.packages": "openssh"
+        "lxc.packages": "openssh bash sudo"
       }
     },
     {
@@ -489,7 +489,7 @@
         }
       },
       "params": {
-        "lxc.packages": "openssh"
+        "lxc.packages": "openssh sudo"
       }
     },
     {

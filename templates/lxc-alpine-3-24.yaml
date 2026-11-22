@@ -17,4 +17,4 @@ images:
     url: incus:images:alpine/3.24/cloud
     format: container
 params:
-  lxc.packages: openssh
+  lxc.packages: openssh bash sudo

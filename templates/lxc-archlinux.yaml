@@ -17,4 +17,4 @@ images:
     url: incus:images:archlinux/current/cloud
     format: container
 params:
-  lxc.packages: openssh
+  lxc.packages: openssh sudo
