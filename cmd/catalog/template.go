@@ -53,9 +53,9 @@ type Template struct {
 var (
 	idRe = regexp.MustCompile(`^[a-z0-9][a-z0-9-]{0,62}$`)
 
-	families  = []string{"linux", "windows", "android", "macos", "ios"}
-	profiles  = []string{"cloud-init", "cloudbase-init", "android", "tart", "phone"}
-	readiness = []string{"ssh", "rdp", "adb", "none"}
+	families  = []string{"linux", "windows", "android", "macos", "ios", "chromeos", "browser"}
+	profiles  = []string{"cloud-init", "cloudbase-init", "android", "tart", "phone", "none"}
+	readiness = []string{"ssh", "rdp", "adb", "vnc", "http", "https", "none"}
 	services  = []string{"ssh", "rdp", "vnc", "adb", "http", "https"}
 	arches    = []string{"x86_64", "arm64"}
 	formats   = []string{"qcow2", "raw", "img", "iso", "container", "oci", "dir", "none"}
@@ -68,6 +68,7 @@ var (
 		"android":     {"docker", "local", "https"},
 		"orchard":     {"oci"},
 		"usb-phone":   {""},
+		"browser":     {"docker"},
 	}
 
 	// Drivers each family may run on.
@@ -77,6 +78,9 @@ var (
 		"android": {"android", "libvirt", "usb-phone"},
 		"macos":   {"orchard"},
 		"ios":     {"usb-phone", "orchard"},
+		// ChromeOS / ChromiumOS images boot unprovisioned in a VM.
+		"chromeos": {"libvirt"},
+		"browser":  {"browser"},
 	}
 
 	// Families each guest profile is valid for.
@@ -86,6 +90,9 @@ var (
 		"android":        {"android"},
 		"tart":           {"macos", "ios"},
 		"phone":          {"android", "ios"},
+		// No guest provisioning: the image is used as it is (ChromeOS,
+		// browsers configured through the driver).
+		"none": {"chromeos", "browser"},
 	}
 
 	desktopServices = []string{"rdp", "vnc"}
@@ -151,14 +158,14 @@ func (t *Template) Validate() error {
 			add("duplicate service %q", s)
 		}
 		seen[s] = true
-		if slices.Contains(desktopServices, s) && !slices.Contains([]string{"linux", "windows", "macos"}, t.Family) {
+		if slices.Contains(desktopServices, s) && !slices.Contains([]string{"linux", "windows", "macos", "chromeos", "browser"}, t.Family) {
 			add("service %q is only valid for desktop families", s)
 		}
 		if s == "adb" && t.Family != "android" {
 			add("service adb is only valid for family android")
 		}
 	}
-	if (t.Readiness == "ssh" || t.Readiness == "rdp" || t.Readiness == "adb") && !seen[t.Readiness] {
+	if t.Readiness != "none" && !seen[t.Readiness] {
 		add("readiness %q requires that service in supported_services", t.Readiness)
 	}
 	for s, p := range t.ServicePorts {

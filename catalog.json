@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-22T20:29:25Z",
+  "generated_at": "2026-11-22T22:48:14Z",
   "templates": [
     {
       "id": "almalinux-10",
@@ -244,6 +244,189 @@
       "params": {
         "docker_qemu.boot_image": "https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2",
         "os_variant": "archlinux"
+      }
+    },
+    {
+      "id": "browser-chromium",
+      "name": "Chromium (disposable)",
+      "description": "A throwaway Chromium in a container. Use it through Guacamole or the web UI (login with the device's user and password). Nothing is kept after deletion.",
+      "version": "1",
+      "family": "browser",
+      "icon": "chromium",
+      "guest_profile": "none",
+      "readiness": "vnc",
+      "default_user": "tossbox",
+      "supported_services": [
+        "vnc",
+        "http"
+      ],
+      "service_ports": {
+        "http": 5800,
+        "vnc": 5900
+      },
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 1024,
+        "storage_gb": 0
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 0
+      },
+      "license": false,
+      "arch": [
+        "x86_64",
+        "arm64"
+      ],
+      "images": {
+        "browser": {
+          "url": "docker://jlesage/chromium:latest",
+          "format": "container"
+        }
+      },
+      "params": {
+        "browser.env.DISPLAY_HEIGHT": "900",
+        "browser.env.DISPLAY_WIDTH": "1600",
+        "browser.env.KEEP_APP_RUNNING": "1",
+        "browser.env.VNC_PASSWORD": "{password}",
+        "browser.env.WEB_AUTHENTICATION": "1",
+        "browser.env.WEB_AUTHENTICATION_ALLOW_INSECURE": "1",
+        "browser.env.WEB_AUTHENTICATION_PASSWORD": "{password}",
+        "browser.env.WEB_AUTHENTICATION_USERNAME": "{user}",
+        "browser.shm_mb": "2048"
+      }
+    },
+    {
+      "id": "browser-firefox",
+      "name": "Firefox (disposable)",
+      "description": "A throwaway Firefox in a container. Use it through Guacamole or the web UI (login with the device's user and password). Nothing is kept after deletion.",
+      "version": "1",
+      "family": "browser",
+      "icon": "firefox",
+      "guest_profile": "none",
+      "readiness": "vnc",
+      "default_user": "tossbox",
+      "supported_services": [
+        "vnc",
+        "http"
+      ],
+      "service_ports": {
+        "http": 5800,
+        "vnc": 5900
+      },
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 1024,
+        "storage_gb": 0
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 0
+      },
+      "license": false,
+      "arch": [
+        "x86_64",
+        "arm64"
+      ],
+      "images": {
+        "browser": {
+          "url": "docker://jlesage/firefox:latest",
+          "format": "container"
+        }
+      },
+      "params": {
+        "browser.env.DISPLAY_HEIGHT": "900",
+        "browser.env.DISPLAY_WIDTH": "1600",
+        "browser.env.KEEP_APP_RUNNING": "1",
+        "browser.env.VNC_PASSWORD": "{password}",
+        "browser.env.WEB_AUTHENTICATION": "1",
+        "browser.env.WEB_AUTHENTICATION_ALLOW_INSECURE": "1",
+        "browser.env.WEB_AUTHENTICATION_PASSWORD": "{password}",
+        "browser.env.WEB_AUTHENTICATION_USERNAME": "{user}",
+        "browser.shm_mb": "2048"
+      }
+    },
+    {
+      "id": "chromeos-flex",
+      "name": "ChromeOS Flex",
+      "description": "Google's ChromeOS Flex (stable channel), booted from the recovery image in \"try it\" mode. Sign in with a Google account or as guest. Subject to the ChromeOS Flex terms. Screen via VNC / Guacamole.",
+      "version": "1",
+      "family": "chromeos",
+      "icon": "chromeos",
+      "guest_profile": "none",
+      "readiness": "vnc",
+      "default_user": "chronos",
+      "supported_services": [
+        "vnc"
+      ],
+      "min_resources": {
+        "vcpus": 2,
+        "ram_mb": 4096,
+        "storage_gb": 16
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 4096,
+        "storage_gb": 20
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "libvirt": {
+          "url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16805.36.0_reven_recovery_stable-channel_RevenMPKeys-v11.bin.zip",
+          "format": "raw"
+        }
+      },
+      "params": {
+        "disk_bus": "sata",
+        "firmware": "efi",
+        "gpu": "recommended",
+        "net_model": "e1000e",
+        "video": "virtio"
+      }
+    },
+    {
+      "id": "chromiumos",
+      "name": "ChromiumOS (R159)",
+      "description": "Open-source ChromiumOS (amd64-generic base image). Builds without Google API keys only offer guest mode (\"Browse as Guest\"). Screen via VNC / Guacamole.",
+      "version": "1",
+      "family": "chromeos",
+      "icon": "chromeos",
+      "guest_profile": "none",
+      "readiness": "vnc",
+      "default_user": "chronos",
+      "supported_services": [
+        "vnc"
+      ],
+      "min_resources": {
+        "vcpus": 2,
+        "ram_mb": 4096,
+        "storage_gb": 12
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 4096,
+        "storage_gb": 16
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "libvirt": {
+          "url": "https://storage.googleapis.com/chromiumos-image-archive/amd64-generic-public/R159-16883.16.0/chromiumos_base_image.tar.xz",
+          "format": "raw"
+        }
+      },
+      "params": {
+        "disk_bus": "virtio",
+        "gpu": "recommended",
+        "net_model": "virtio",
+        "video": "virtio"
       }
     },
     {

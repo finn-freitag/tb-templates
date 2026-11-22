@@ -1,0 +1,26 @@
+id: chromeos-flex
+name: ChromeOS Flex
+description: Google's ChromeOS Flex (stable channel), booted from the recovery image in "try it" mode. Sign in with a Google account or as guest. Subject to the ChromeOS Flex terms. Screen via VNC / Guacamole.
+version: "1"
+family: chromeos
+icon: chromeos
+guest_profile: none
+readiness: vnc
+default_user: chronos
+supported_services: [vnc]
+min_resources: { vcpus: 2, ram_mb: 4096, storage_gb: 16 }
+default_resources: { vcpus: 4, ram_mb: 4096, storage_gb: 20 }
+license: false
+arch: [x86_64]
+images:
+  libvirt:
+    # Pinned stable release (what .../chromeos-flex/images/latest.bin.zip
+    # pointed to on 2026-11-22). Tested: UEFI + SATA + e1000e.
+    url: https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16805.36.0_reven_recovery_stable-channel_RevenMPKeys-v11.bin.zip
+    format: raw
+params:
+  firmware: efi
+  disk_bus: sata
+  net_model: e1000e
+  video: virtio
+  gpu: recommended

@@ -1,0 +1,33 @@
+id: browser-firefox
+name: Firefox (disposable)
+description: A throwaway Firefox in a container. Use it through Guacamole or the web UI (login with the device's user and password). Nothing is kept after deletion.
+version: "1"
+family: browser
+icon: firefox
+guest_profile: none
+readiness: vnc
+default_user: tossbox
+supported_services: [vnc, http]
+service_ports:
+  vnc: 5900
+  http: 5800
+min_resources: { vcpus: 1, ram_mb: 1024, storage_gb: 0 }
+default_resources: { vcpus: 2, ram_mb: 2048, storage_gb: 0 }
+license: false
+arch: [x86_64, arm64]
+images:
+  browser:
+    url: docker://jlesage/firefox:latest
+    format: container
+params:
+  # jlesage images: VNC (5900, password auth) and a web UI (5800) behind a
+  # login page. {password}/{user}/{hostname} are replaced by the driver.
+  browser.env.VNC_PASSWORD: "{password}"
+  browser.env.WEB_AUTHENTICATION: "1"
+  browser.env.WEB_AUTHENTICATION_ALLOW_INSECURE: "1"
+  browser.env.WEB_AUTHENTICATION_USERNAME: "{user}"
+  browser.env.WEB_AUTHENTICATION_PASSWORD: "{password}"
+  browser.env.KEEP_APP_RUNNING: "1"
+  browser.env.DISPLAY_WIDTH: "1600"
+  browser.env.DISPLAY_HEIGHT: "900"
+  browser.shm_mb: "2048"

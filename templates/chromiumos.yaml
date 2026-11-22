@@ -1,0 +1,25 @@
+id: chromiumos
+name: ChromiumOS (R159)
+description: Open-source ChromiumOS (amd64-generic base image). Builds without Google API keys only offer guest mode ("Browse as Guest"). Screen via VNC / Guacamole.
+version: "1"
+family: chromeos
+icon: chromeos
+guest_profile: none
+readiness: vnc
+default_user: chronos
+supported_services: [vnc]
+min_resources: { vcpus: 2, ram_mb: 4096, storage_gb: 12 }
+default_resources: { vcpus: 4, ram_mb: 4096, storage_gb: 16 }
+license: false
+arch: [x86_64]
+images:
+  libvirt:
+    # Official public build of the R159 release branch (tested: boots to the
+    # welcome screen with BIOS + virtio).
+    url: https://storage.googleapis.com/chromiumos-image-archive/amd64-generic-public/R159-16883.16.0/chromiumos_base_image.tar.xz
+    format: raw
+params:
+  disk_bus: virtio
+  net_model: virtio
+  video: virtio
+  gpu: recommended

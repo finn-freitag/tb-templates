@@ -13,10 +13,10 @@ id: debian-13                 # unique, [a-z0-9-]
 name: Debian 13 (Trixie)
 description: Official Debian generic cloud image
 version: "1"                  # bump when the image or provisioning changes
-family: linux                 # linux | windows | android | macos | ios
+family: linux                 # linux | windows | android | macos | ios | chromeos | browser
 icon: debian                  # optional, UI hint
-guest_profile: cloud-init     # cloud-init | cloudbase-init | android | tart | phone
-readiness: ssh                # ssh | rdp | adb | none
+guest_profile: cloud-init     # cloud-init | cloudbase-init | android | tart | phone | none
+readiness: ssh                # ssh | rdp | adb | vnc | http | https | none (vnc/http/https: TCP connect)
 default_user: tossbox         # user created / used for ssh, rdp, vnc
 supported_services: [ssh, vnc, http, https]
 service_ports:                # optional overrides of internal ports
@@ -44,7 +44,9 @@ params:                       # free-form, passed to the driver (TemplateSpec.pa
 
 - `format`: `qcow2`, `raw`, `img`, `iso`, `container` (docker images and lxc/incus images), `oci` (orchard/tart), `none` (usb-phone).
 - `usb-phone` templates use `url: ""` and `format: none`; templates with the `phone` profile may have empty `supported_services` and zero resources.
-- Validation rules (enforced by `cmd/catalog`): RDP/VNC only for `linux`, `windows` and `macos`; the readiness service must be in `supported_services`; each driver only runs certain families (libvirt/docker-qemu: linux, windows; lxc: linux; android: android; orchard: macos; usb-phone: android, ios).
+- `https://` images ending in `.zip`, `.tar.xz`, `.tar.gz`, `.xz` or `.gz` are unpacked by the agent (zip/tar: the largest file is the disk image; `sha256` refers to the archive).
+- Validation rules (enforced by `cmd/catalog`): RDP/VNC only for `linux`, `windows`, `macos`, `chromeos` and `browser`; the readiness service must be in `supported_services`; each driver only runs certain families (libvirt: linux, windows, chromeos; docker-qemu: linux, windows; lxc: linux; android: android; orchard: macos; usb-phone: android, ios; browser: browser).
+- Guest profile `none`: the image is used as it is, without a seed (ChromeOS, browsers).
 
 ## Known params
 
@@ -56,7 +58,11 @@ Params are passed to the driver as `TemplateSpec.params`. Driver-specific keys a
 | `cloudinit.packages` | libvirt, docker-qemu, lxc (cloud-init profile) | extra packages installed on first boot (space or comma separated) |
 | `cloudinit.script` | libvirt, docker-qemu, lxc (cloud-init profile) | shell script run once as root after the packages; output in `/var/log/tossbox-setup.log`. Combine with `readiness: rdp` (or another service the script starts) so the device only turns ready when the script is done |
 | `tpm`, `secure_boot` | libvirt (Windows) | `"true"`/`"false"` |
-| `disk_bus`, `video` | libvirt | disk bus / video model overrides |
+| `disk_bus`, `video`, `net_model` | libvirt | disk bus (`virtio`, `sata`), video model, NIC model (`virtio`, `e1000e`) overrides |
+| `firmware` | libvirt (non-Windows) | `efi`: boot with UEFI (secure boot off); default BIOS |
+| `gpu` | dashboard | `required`: devices always get a GPU; `recommended`: GPU by default when a node offers one |
+| `browser.env.<NAME>` | browser | container environment; `{password}`, `{user}` and `{hostname}` are replaced |
+| `browser.shm_mb` | browser | `/dev/shm` size in MiB (Chromium needs ≥ 1024) |
 | `docker_qemu.boot_image` | docker-qemu (Linux) | cloud image URL (qcow2/img), fetched by the agent, booted by qemux/qemu as `/boot.<ext>` together with the cidata seed |
 | `docker_qemu.boot_image_sha256` | docker-qemu | optional checksum of the boot image |
 | `docker_qemu.boot` | docker-qemu | qemux built-in OS name (no provisioning), only used without `boot_image` |
@@ -78,7 +84,7 @@ Cuttlefish templates use `images.android.url: local:<dir>` (format `dir`): a dir
 |---|---|
 | `https://…` | downloaded and cached by the agent (checksum verified if `sha256` set) |
 | `local:<file>` | file that must exist in the agent's image directory, e.g. a licensed Windows golden image built with Packer from `packer/` |
-| `docker://<ref>` | container image (docker-qemu, android/redroid) |
+| `docker://<ref>` | container image (docker-qemu, android/redroid, browser) |
 | `local:<dir>` (format `dir`) | android/cuttlefish: image directory below `images_dir` |
 | `oci://<ref>` | OCI VM image (orchard/tart) |
 | `incus:<remote>:<alias>` | Incus/LXC image, e.g. `incus:images:debian/13/cloud` (lxc driver) |
