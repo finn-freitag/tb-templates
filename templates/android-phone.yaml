@@ -1,0 +1,19 @@
+id: android-phone
+name: Android phone (physical)
+description: A physical Android phone attached to a phone node via USB. Leased from a pool; reset (fastboot -w or reflash for unlocked Pixels) and set up via adb between uses.
+version: "1"
+family: android
+icon: android
+guest_profile: phone
+readiness: adb
+supported_services: [adb]
+min_resources: { vcpus: 0, ram_mb: 0, storage_gb: 0 }
+default_resources: { vcpus: 0, ram_mb: 0, storage_gb: 0 }
+license: false
+arch: [arm64, x86_64]
+images:
+  usb-phone:
+    url: ""
+    format: none
+params:
+  reset: fastboot

@@ -1,0 +1,25 @@
+id: ubuntu-26-04
+name: Ubuntu 26.04 LTS (Resolute Raccoon)
+description: Official Ubuntu server cloud image
+version: "1"
+family: linux
+icon: ubuntu
+guest_profile: cloud-init
+readiness: ssh
+default_user: tossbox
+supported_services: [ssh, vnc, http, https]
+min_resources: { vcpus: 1, ram_mb: 512, storage_gb: 8 }
+default_resources: { vcpus: 2, ram_mb: 2048, storage_gb: 20 }
+license: false
+arch: [x86_64]
+images:
+  libvirt:
+    url: https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img
+    format: qcow2
+  docker-qemu:
+    url: docker://qemux/qemu:latest
+    format: container
+params:
+  os_variant: ubuntu26.04
+  # docker-qemu: passed as BOOT to qemux/qemu; the agent attaches its cidata seed as an extra disk.
+  docker_qemu_boot: https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img

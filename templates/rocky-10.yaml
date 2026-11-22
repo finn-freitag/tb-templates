@@ -1,0 +1,25 @@
+id: rocky-10
+name: Rocky Linux 10
+description: Official Rocky Linux GenericCloud Base image
+version: "1"
+family: linux
+icon: rocky
+guest_profile: cloud-init
+readiness: ssh
+default_user: tossbox
+supported_services: [ssh, vnc, http, https]
+min_resources: { vcpus: 1, ram_mb: 1024, storage_gb: 10 }
+default_resources: { vcpus: 2, ram_mb: 2048, storage_gb: 20 }
+license: false
+arch: [x86_64]
+images:
+  libvirt:
+    url: https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2
+    format: qcow2
+  docker-qemu:
+    url: docker://qemux/qemu:latest
+    format: container
+params:
+  os_variant: rocky10
+  # docker-qemu: passed as BOOT to qemux/qemu; the agent attaches its cidata seed as an extra disk.
+  docker_qemu_boot: https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2

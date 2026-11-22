@@ -1,0 +1,958 @@
+{
+  "schema": 1,
+  "generated_at": "2026-11-22T15:29:12Z",
+  "templates": [
+    {
+      "id": "almalinux-10",
+      "name": "AlmaLinux 10",
+      "description": "Official AlmaLinux GenericCloud image",
+      "version": "1",
+      "family": "linux",
+      "icon": "almalinux",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 1024,
+        "storage_gb": 10
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 20
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://repo.almalinux.org/almalinux/10/cloud/x86_64/images/AlmaLinux-10-GenericCloud-latest.x86_64.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "docker_qemu_boot": "https://repo.almalinux.org/almalinux/10/cloud/x86_64/images/AlmaLinux-10-GenericCloud-latest.x86_64.qcow2",
+        "os_variant": "almalinux10"
+      }
+    },
+    {
+      "id": "android-15-redroid",
+      "name": "Android 15 (redroid)",
+      "description": "Android in a container via redroid (needs the binder kernel module on the node). Screen via scrcpy over ADB.",
+      "version": "1",
+      "family": "android",
+      "icon": "android",
+      "guest_profile": "android",
+      "readiness": "adb",
+      "default_user": "shell",
+      "supported_services": [
+        "adb"
+      ],
+      "min_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 8
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 4096,
+        "storage_gb": 16
+      },
+      "license": false,
+      "arch": [
+        "arm64",
+        "x86_64"
+      ],
+      "images": {
+        "android": {
+          "url": "docker://redroid/redroid:15.0.0_64only-latest",
+          "format": "container"
+        }
+      },
+      "params": {
+        "api_level": "35",
+        "backend": "redroid",
+        "dpi": "420",
+        "height": "1920",
+        "width": "1080"
+      }
+    },
+    {
+      "id": "android-16-redroid",
+      "name": "Android 16 (redroid)",
+      "description": "Android in a container via redroid (needs the binder kernel module on the node). Screen via scrcpy over ADB.",
+      "version": "1",
+      "family": "android",
+      "icon": "android",
+      "guest_profile": "android",
+      "readiness": "adb",
+      "default_user": "shell",
+      "supported_services": [
+        "adb"
+      ],
+      "min_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 8
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 4096,
+        "storage_gb": 16
+      },
+      "license": false,
+      "arch": [
+        "arm64",
+        "x86_64"
+      ],
+      "images": {
+        "android": {
+          "url": "docker://redroid/redroid:16.0.0_64only-latest",
+          "format": "container"
+        }
+      },
+      "params": {
+        "api_level": "36",
+        "backend": "redroid",
+        "dpi": "420",
+        "height": "1920",
+        "width": "1080"
+      }
+    },
+    {
+      "id": "android-cuttlefish",
+      "name": "Android (Cuttlefish)",
+      "description": "Google's official virtual Android device (KVM). Host tools run in the cuttlefish-orchestration container; device images are fetched from ci.android.com (cvd fetch) for the given branch and target. Screen in the browser via WebRTC.",
+      "version": "1",
+      "family": "android",
+      "icon": "android",
+      "guest_profile": "android",
+      "readiness": "adb",
+      "default_user": "shell",
+      "supported_services": [
+        "adb"
+      ],
+      "min_resources": {
+        "vcpus": 2,
+        "ram_mb": 4096,
+        "storage_gb": 16
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 6144,
+        "storage_gb": 32
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "android": {
+          "url": "docker://us-docker.pkg.dev/android-cuttlefish-artifacts/cuttlefish-orchestration/cuttlefish-orchestration:stable",
+          "format": "container"
+        }
+      },
+      "params": {
+        "backend": "cuttlefish",
+        "cvd_branch": "aosp-android-latest-release",
+        "cvd_target": "aosp_cf_x86_64_only_phone-userdebug"
+      }
+    },
+    {
+      "id": "android-phone",
+      "name": "Android phone (physical)",
+      "description": "A physical Android phone attached to a phone node via USB. Leased from a pool; reset (fastboot -w or reflash for unlocked Pixels) and set up via adb between uses.",
+      "version": "1",
+      "family": "android",
+      "icon": "android",
+      "guest_profile": "phone",
+      "readiness": "adb",
+      "supported_services": [
+        "adb"
+      ],
+      "min_resources": {
+        "vcpus": 0,
+        "ram_mb": 0,
+        "storage_gb": 0
+      },
+      "default_resources": {
+        "vcpus": 0,
+        "ram_mb": 0,
+        "storage_gb": 0
+      },
+      "license": false,
+      "arch": [
+        "arm64",
+        "x86_64"
+      ],
+      "images": {
+        "usb-phone": {
+          "url": "",
+          "format": "none"
+        }
+      },
+      "params": {
+        "reset": "fastboot"
+      }
+    },
+    {
+      "id": "archlinux",
+      "name": "Arch Linux",
+      "description": "Official Arch Linux cloud image (rolling)",
+      "version": "1",
+      "family": "linux",
+      "icon": "arch",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 512,
+        "storage_gb": 8
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 20
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "docker_qemu_boot": "https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2",
+        "os_variant": "archlinux"
+      }
+    },
+    {
+      "id": "debian-12",
+      "name": "Debian 12 (Bookworm)",
+      "description": "Official Debian generic cloud image",
+      "version": "1",
+      "family": "linux",
+      "icon": "debian",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 512,
+        "storage_gb": 8
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 20
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "docker_qemu_boot": "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2",
+        "os_variant": "debian12"
+      }
+    },
+    {
+      "id": "debian-13",
+      "name": "Debian 13 (Trixie)",
+      "description": "Official Debian generic cloud image",
+      "version": "1",
+      "family": "linux",
+      "icon": "debian",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 512,
+        "storage_gb": 8
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 20
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "docker_qemu_boot": "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2",
+        "os_variant": "debian13"
+      }
+    },
+    {
+      "id": "fedora-45",
+      "name": "Fedora 45 Cloud",
+      "description": "Official Fedora Cloud Base Generic image",
+      "version": "1",
+      "family": "linux",
+      "icon": "fedora",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 1024,
+        "storage_gb": 8
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 20
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://download.fedoraproject.org/pub/fedora/linux/releases/45/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-45-1.4.x86_64.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "docker_qemu_boot": "https://download.fedoraproject.org/pub/fedora/linux/releases/45/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-45-1.4.x86_64.qcow2",
+        "os_variant": "fedora-unknown"
+      }
+    },
+    {
+      "id": "iphone",
+      "name": "iPhone (physical)",
+      "description": "A supervised physical iPhone attached to a phone node via USB (Activation Lock off). Leased from a pool; erased and set up between uses. No remote services yet.",
+      "version": "1",
+      "family": "ios",
+      "icon": "apple",
+      "guest_profile": "phone",
+      "readiness": "none",
+      "supported_services": [],
+      "min_resources": {
+        "vcpus": 0,
+        "ram_mb": 0,
+        "storage_gb": 0
+      },
+      "default_resources": {
+        "vcpus": 0,
+        "ram_mb": 0,
+        "storage_gb": 0
+      },
+      "license": false,
+      "arch": [
+        "arm64",
+        "x86_64"
+      ],
+      "images": {
+        "usb-phone": {
+          "url": "",
+          "format": "none"
+        }
+      },
+      "params": {
+        "requires_supervision": "true",
+        "reset": "erase"
+      }
+    },
+    {
+      "id": "lxc-alpine-3-24",
+      "name": "Alpine 3.24 (container)",
+      "description": "Linux system container from images.linuxcontainers.org (cloud variant)",
+      "version": "1",
+      "family": "linux",
+      "icon": "alpine",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 128,
+        "storage_gb": 2
+      },
+      "default_resources": {
+        "vcpus": 1,
+        "ram_mb": 1024,
+        "storage_gb": 10
+      },
+      "license": false,
+      "arch": [
+        "arm64",
+        "x86_64"
+      ],
+      "images": {
+        "lxc": {
+          "url": "incus:images:alpine/3.24/cloud",
+          "format": "container"
+        }
+      }
+    },
+    {
+      "id": "lxc-archlinux",
+      "name": "Arch Linux (container)",
+      "description": "Linux system container from images.linuxcontainers.org (cloud variant)",
+      "version": "1",
+      "family": "linux",
+      "icon": "arch",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 128,
+        "storage_gb": 2
+      },
+      "default_resources": {
+        "vcpus": 1,
+        "ram_mb": 1024,
+        "storage_gb": 10
+      },
+      "license": false,
+      "arch": [
+        "arm64",
+        "x86_64"
+      ],
+      "images": {
+        "lxc": {
+          "url": "incus:images:archlinux/current/cloud",
+          "format": "container"
+        }
+      }
+    },
+    {
+      "id": "lxc-debian-13",
+      "name": "Debian 13 (container)",
+      "description": "Linux system container from images.linuxcontainers.org (cloud variant)",
+      "version": "1",
+      "family": "linux",
+      "icon": "debian",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 128,
+        "storage_gb": 2
+      },
+      "default_resources": {
+        "vcpus": 1,
+        "ram_mb": 1024,
+        "storage_gb": 10
+      },
+      "license": false,
+      "arch": [
+        "arm64",
+        "x86_64"
+      ],
+      "images": {
+        "lxc": {
+          "url": "incus:images:debian/13/cloud",
+          "format": "container"
+        }
+      }
+    },
+    {
+      "id": "lxc-ubuntu-24-04",
+      "name": "Ubuntu 24.04 LTS (container)",
+      "description": "Linux system container from images.linuxcontainers.org (cloud variant)",
+      "version": "1",
+      "family": "linux",
+      "icon": "ubuntu",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 128,
+        "storage_gb": 2
+      },
+      "default_resources": {
+        "vcpus": 1,
+        "ram_mb": 1024,
+        "storage_gb": 10
+      },
+      "license": false,
+      "arch": [
+        "arm64",
+        "x86_64"
+      ],
+      "images": {
+        "lxc": {
+          "url": "incus:images:ubuntu/24.04/cloud",
+          "format": "container"
+        }
+      }
+    },
+    {
+      "id": "macos-sequoia",
+      "name": "macOS Sequoia",
+      "description": "macOS VM (Tart image by Cirrus Labs) scheduled through Orchard. Max 2 VMs per Mac.",
+      "version": "1",
+      "family": "macos",
+      "icon": "apple",
+      "guest_profile": "tart",
+      "readiness": "ssh",
+      "default_user": "admin",
+      "supported_services": [
+        "ssh",
+        "vnc"
+      ],
+      "min_resources": {
+        "vcpus": 4,
+        "ram_mb": 8192,
+        "storage_gb": 50
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 8192,
+        "storage_gb": 60
+      },
+      "license": false,
+      "arch": [
+        "arm64"
+      ],
+      "images": {
+        "orchard": {
+          "url": "oci://ghcr.io/cirruslabs/macos-sequoia-base:latest",
+          "format": "oci"
+        }
+      },
+      "params": {
+        "initial_password": "admin"
+      }
+    },
+    {
+      "id": "macos-sequoia-xcode",
+      "name": "macOS Sequoia + Xcode",
+      "description": "macOS VM (Tart image by Cirrus Labs) scheduled through Orchard. Max 2 VMs per Mac. Includes Xcode and iOS simulators.",
+      "version": "1",
+      "family": "macos",
+      "icon": "apple",
+      "guest_profile": "tart",
+      "readiness": "ssh",
+      "default_user": "admin",
+      "supported_services": [
+        "ssh",
+        "vnc"
+      ],
+      "min_resources": {
+        "vcpus": 4,
+        "ram_mb": 8192,
+        "storage_gb": 120
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 16384,
+        "storage_gb": 150
+      },
+      "license": false,
+      "arch": [
+        "arm64"
+      ],
+      "images": {
+        "orchard": {
+          "url": "oci://ghcr.io/cirruslabs/macos-sequoia-xcode:latest",
+          "format": "oci"
+        }
+      },
+      "params": {
+        "initial_password": "admin"
+      }
+    },
+    {
+      "id": "macos-tahoe",
+      "name": "macOS Tahoe",
+      "description": "macOS VM (Tart image by Cirrus Labs) scheduled through Orchard. Max 2 VMs per Mac.",
+      "version": "1",
+      "family": "macos",
+      "icon": "apple",
+      "guest_profile": "tart",
+      "readiness": "ssh",
+      "default_user": "admin",
+      "supported_services": [
+        "ssh",
+        "vnc"
+      ],
+      "min_resources": {
+        "vcpus": 4,
+        "ram_mb": 8192,
+        "storage_gb": 50
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 8192,
+        "storage_gb": 60
+      },
+      "license": false,
+      "arch": [
+        "arm64"
+      ],
+      "images": {
+        "orchard": {
+          "url": "oci://ghcr.io/cirruslabs/macos-tahoe-base:latest",
+          "format": "oci"
+        }
+      },
+      "params": {
+        "initial_password": "admin"
+      }
+    },
+    {
+      "id": "macos-tahoe-xcode",
+      "name": "macOS Tahoe + Xcode",
+      "description": "macOS VM (Tart image by Cirrus Labs) scheduled through Orchard. Max 2 VMs per Mac. Includes Xcode and iOS simulators.",
+      "version": "1",
+      "family": "macos",
+      "icon": "apple",
+      "guest_profile": "tart",
+      "readiness": "ssh",
+      "default_user": "admin",
+      "supported_services": [
+        "ssh",
+        "vnc"
+      ],
+      "min_resources": {
+        "vcpus": 4,
+        "ram_mb": 8192,
+        "storage_gb": 120
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 16384,
+        "storage_gb": 150
+      },
+      "license": false,
+      "arch": [
+        "arm64"
+      ],
+      "images": {
+        "orchard": {
+          "url": "oci://ghcr.io/cirruslabs/macos-tahoe-xcode:latest",
+          "format": "oci"
+        }
+      },
+      "params": {
+        "initial_password": "admin"
+      }
+    },
+    {
+      "id": "rocky-10",
+      "name": "Rocky Linux 10",
+      "description": "Official Rocky Linux GenericCloud Base image",
+      "version": "1",
+      "family": "linux",
+      "icon": "rocky",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 1024,
+        "storage_gb": 10
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 20
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "docker_qemu_boot": "https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2",
+        "os_variant": "rocky10"
+      }
+    },
+    {
+      "id": "ubuntu-24-04",
+      "name": "Ubuntu 24.04 LTS (Noble Numbat)",
+      "description": "Official Ubuntu server cloud image",
+      "version": "1",
+      "family": "linux",
+      "icon": "ubuntu",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 512,
+        "storage_gb": 8
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 20
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "docker_qemu_boot": "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img",
+        "os_variant": "ubuntu24.04"
+      }
+    },
+    {
+      "id": "ubuntu-26-04",
+      "name": "Ubuntu 26.04 LTS (Resolute Raccoon)",
+      "description": "Official Ubuntu server cloud image",
+      "version": "1",
+      "family": "linux",
+      "icon": "ubuntu",
+      "guest_profile": "cloud-init",
+      "readiness": "ssh",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 1,
+        "ram_mb": 512,
+        "storage_gb": 8
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 2048,
+        "storage_gb": 20
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "docker_qemu_boot": "https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img",
+        "os_variant": "ubuntu26.04"
+      }
+    },
+    {
+      "id": "windows-11-pro",
+      "name": "Windows 11 Pro",
+      "description": "Windows 11 Pro. libvirt uses a golden image from packer/windows; docker-qemu installs unattended via dockur/windows",
+      "version": "1",
+      "family": "windows",
+      "icon": "windows",
+      "guest_profile": "cloudbase-init",
+      "readiness": "rdp",
+      "default_user": "tossbox",
+      "supported_services": [
+        "rdp",
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 2,
+        "ram_mb": 4096,
+        "storage_gb": 64
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 8192,
+        "storage_gb": 80
+      },
+      "license": true,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://dockurr/windows:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "local:windows-11-pro.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "dockur_version": "11",
+        "os_variant": "win11",
+        "secure_boot": "true",
+        "tpm": "true"
+      }
+    },
+    {
+      "id": "windows-server-2025",
+      "name": "Windows Server 2025",
+      "description": "Windows Server 2025 Standard (Desktop Experience). libvirt uses a golden image from packer/windows; docker-qemu installs unattended via dockur/windows",
+      "version": "1",
+      "family": "windows",
+      "icon": "windows",
+      "guest_profile": "cloudbase-init",
+      "readiness": "rdp",
+      "default_user": "tossbox",
+      "supported_services": [
+        "rdp",
+        "ssh",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 2,
+        "ram_mb": 4096,
+        "storage_gb": 64
+      },
+      "default_resources": {
+        "vcpus": 4,
+        "ram_mb": 8192,
+        "storage_gb": 80
+      },
+      "license": true,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://dockurr/windows:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "local:windows-server-2025.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "dockur_version": "2025",
+        "os_variant": "win2k25",
+        "secure_boot": "true",
+        "tpm": "true"
+      }
+    }
+  ]
+}

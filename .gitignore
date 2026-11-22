@@ -1,0 +1,6 @@
+.direnv/
+packer/windows/build/
+packer/windows/output/
+packer_cache/
+*.iso
+*.qcow2

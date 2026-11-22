@@ -1,0 +1,18 @@
+id: lxc-ubuntu-24-04
+name: Ubuntu 24.04 LTS (container)
+description: Linux system container from images.linuxcontainers.org (cloud variant)
+version: "1"
+family: linux
+icon: ubuntu
+guest_profile: cloud-init
+readiness: ssh
+default_user: tossbox
+supported_services: [ssh, http, https]
+min_resources: { vcpus: 1, ram_mb: 128, storage_gb: 2 }
+default_resources: { vcpus: 1, ram_mb: 1024, storage_gb: 10 }
+license: false
+arch: [arm64, x86_64]
+images:
+  lxc:
+    url: incus:images:ubuntu/24.04/cloud
+    format: container

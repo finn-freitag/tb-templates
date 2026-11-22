@@ -1,0 +1,20 @@
+id: iphone
+name: iPhone (physical)
+description: A supervised physical iPhone attached to a phone node via USB (Activation Lock off). Leased from a pool; erased and set up between uses. No remote services yet.
+version: "1"
+family: ios
+icon: apple
+guest_profile: phone
+readiness: none
+supported_services: []
+min_resources: { vcpus: 0, ram_mb: 0, storage_gb: 0 }
+default_resources: { vcpus: 0, ram_mb: 0, storage_gb: 0 }
+license: false
+arch: [arm64, x86_64]
+images:
+  usb-phone:
+    url: ""
+    format: none
+params:
+  reset: erase
+  requires_supervision: "true"

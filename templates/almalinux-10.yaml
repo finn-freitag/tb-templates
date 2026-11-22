@@ -1,0 +1,25 @@
+id: almalinux-10
+name: AlmaLinux 10
+description: Official AlmaLinux GenericCloud image
+version: "1"
+family: linux
+icon: almalinux
+guest_profile: cloud-init
+readiness: ssh
+default_user: tossbox
+supported_services: [ssh, vnc, http, https]
+min_resources: { vcpus: 1, ram_mb: 1024, storage_gb: 10 }
+default_resources: { vcpus: 2, ram_mb: 2048, storage_gb: 20 }
+license: false
+arch: [x86_64]
+images:
+  libvirt:
+    url: https://repo.almalinux.org/almalinux/10/cloud/x86_64/images/AlmaLinux-10-GenericCloud-latest.x86_64.qcow2
+    format: qcow2
+  docker-qemu:
+    url: docker://qemux/qemu:latest
+    format: container
+params:
+  os_variant: almalinux10
+  # docker-qemu: passed as BOOT to qemux/qemu; the agent attaches its cidata seed as an extra disk.
+  docker_qemu_boot: https://repo.almalinux.org/almalinux/10/cloud/x86_64/images/AlmaLinux-10-GenericCloud-latest.x86_64.qcow2

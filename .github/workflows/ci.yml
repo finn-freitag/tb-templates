@@ -1,0 +1,49 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - run: go vet ./...
+      - run: go test ./...
+      - name: catalog.json up to date
+        run: go run ./cmd/catalog -check
+  urls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: https image URLs reachable
+        run: |
+          fail=0
+          for url in $(jq -r '.templates[].images[].url | select(startswith("https://"))' catalog.json | sort -u); do
+            code=$(curl -sIL -o /dev/null -w '%{http_code}' --max-time 60 "$url")
+            echo "$code $url"
+            [ "$code" = "200" ] || fail=1
+          done
+          exit $fail
+  packer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-packer@main
+      - name: packer fmt
+        run: packer fmt -check -diff packer/windows
+      - name: packer validate
+        working-directory: packer/windows
+        run: |
+          packer init .
+          mkdir -p /tmp/virtio && touch /tmp/win.iso /tmp/OVMF_CODE.fd /tmp/OVMF_VARS.fd
+          for vars in *.pkrvars.hcl; do
+            packer validate -var-file="$vars" \
+              -var iso_url=/tmp/win.iso -var virtio_dir=/tmp/virtio \
+              -var efi_firmware_code=/tmp/OVMF_CODE.fd -var efi_firmware_vars=/tmp/OVMF_VARS.fd .
+          done

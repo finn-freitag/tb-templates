@@ -1,0 +1,32 @@
+id: windows-server-2025
+name: Windows Server 2025
+description: Windows Server 2025 Standard (Desktop Experience). libvirt uses a golden image from packer/windows; docker-qemu installs unattended via dockur/windows
+version: "1"
+family: windows
+icon: windows
+guest_profile: cloudbase-init
+readiness: rdp
+default_user: tossbox
+supported_services: [rdp, ssh, vnc, http, https]
+min_resources: { vcpus: 2, ram_mb: 4096, storage_gb: 64 }
+default_resources: { vcpus: 4, ram_mb: 8192, storage_gb: 80 }
+license: true
+arch: [x86_64]
+images:
+  # Sysprepped golden image built with packer/windows (cloudbase-init, VirtIO,
+  # OpenSSH, RDP+NLA). Must exist as <data_dir>/images/windows-server-2025.qcow2 on the node.
+  libvirt:
+    url: local:windows-server-2025.qcow2
+    format: qcow2
+  # dockur/windows installs Windows unattended from Microsoft's ISO on first
+  # start (10-20 min). The agent sets USERNAME/PASSWORD from the device
+  # credentials, VERSION from dockur_version, and passes the product key and
+  # hostname via an /oem install.bat. RDP is enabled by dockur.
+  docker-qemu:
+    url: docker://dockurr/windows:latest
+    format: container
+params:
+  os_variant: win2k25
+  tpm: "true"
+  secure_boot: "true"
+  dockur_version: "2025"

@@ -1,0 +1,25 @@
+id: archlinux
+name: Arch Linux
+description: Official Arch Linux cloud image (rolling)
+version: "1"
+family: linux
+icon: arch
+guest_profile: cloud-init
+readiness: ssh
+default_user: tossbox
+supported_services: [ssh, vnc, http, https]
+min_resources: { vcpus: 1, ram_mb: 512, storage_gb: 8 }
+default_resources: { vcpus: 2, ram_mb: 2048, storage_gb: 20 }
+license: false
+arch: [x86_64]
+images:
+  libvirt:
+    url: https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2
+    format: qcow2
+  docker-qemu:
+    url: docker://qemux/qemu:latest
+    format: container
+params:
+  os_variant: archlinux
+  # docker-qemu: passed as BOOT to qemux/qemu; the agent attaches its cidata seed as an extra disk.
+  docker_qemu_boot: https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2

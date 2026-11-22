@@ -1,0 +1,21 @@
+id: macos-tahoe
+name: macOS Tahoe
+description: macOS VM (Tart image by Cirrus Labs) scheduled through Orchard. Max 2 VMs per Mac.
+version: "1"
+family: macos
+icon: apple
+guest_profile: tart
+readiness: ssh
+default_user: admin
+supported_services: [ssh, vnc]
+min_resources: { vcpus: 4, ram_mb: 8192, storage_gb: 50 }
+default_resources: { vcpus: 4, ram_mb: 8192, storage_gb: 60 }
+license: false
+arch: [arm64]
+images:
+  orchard:
+    url: oci://ghcr.io/cirruslabs/macos-tahoe-base:latest
+    format: oci
+params:
+  # Cirrus images ship with admin/admin; the agent changes the password via SSH after boot.
+  initial_password: admin

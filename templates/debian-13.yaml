@@ -1,0 +1,25 @@
+id: debian-13
+name: Debian 13 (Trixie)
+description: Official Debian generic cloud image
+version: "1"
+family: linux
+icon: debian
+guest_profile: cloud-init
+readiness: ssh
+default_user: tossbox
+supported_services: [ssh, vnc, http, https]
+min_resources: { vcpus: 1, ram_mb: 512, storage_gb: 8 }
+default_resources: { vcpus: 2, ram_mb: 2048, storage_gb: 20 }
+license: false
+arch: [x86_64]
+images:
+  libvirt:
+    url: https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2
+    format: qcow2
+  docker-qemu:
+    url: docker://qemux/qemu:latest
+    format: container
+params:
+  os_variant: debian13
+  # docker-qemu: passed as BOOT to qemux/qemu; the agent attaches its cidata seed as an extra disk.
+  docker_qemu_boot: https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2

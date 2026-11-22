@@ -1,0 +1,18 @@
+id: lxc-archlinux
+name: Arch Linux (container)
+description: Linux system container from images.linuxcontainers.org (cloud variant)
+version: "1"
+family: linux
+icon: arch
+guest_profile: cloud-init
+readiness: ssh
+default_user: tossbox
+supported_services: [ssh, http, https]
+min_resources: { vcpus: 1, ram_mb: 128, storage_gb: 2 }
+default_resources: { vcpus: 1, ram_mb: 1024, storage_gb: 10 }
+license: false
+arch: [arm64, x86_64]
+images:
+  lxc:
+    url: incus:images:archlinux/current/cloud
+    format: container
