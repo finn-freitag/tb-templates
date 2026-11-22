@@ -1,6 +1,6 @@
 id: android-16-redroid
 name: Android 16 (redroid)
-description: Android in a container via redroid (needs the binder kernel module on the node). Screen via scrcpy over ADB.
+description: Android in a container via redroid. Needs binder AND the ashmem kernel driver on the node (ashmem was removed in Linux 5.18, so most current kernels lack it; use Android 15 there). Screen via scrcpy over ADB.
 version: "1"
 family: android
 icon: android
@@ -21,3 +21,5 @@ params:
   redroid.width: "1080"
   redroid.height: "1920"
   redroid.dpi: "420"
+  # The redroid 16 image allocates graphics buffers via ashmem even with use_memfd.
+  redroid.requires_ashmem: "true"

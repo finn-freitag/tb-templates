@@ -67,6 +67,7 @@ Params are passed to the driver as `TemplateSpec.params`. Driver-specific keys a
 | `lxc.packages` | lxc | packages cloud-init installs (space or comma separated); default `openssh-server`, since `images:` cloud variants ship without an SSH server |
 | `android.backend` | android | `redroid` or `cuttlefish` (a device param `backend` overrides it) |
 | `redroid.width`, `redroid.height`, `redroid.dpi` | android (redroid) | display size / density |
+| `redroid.requires_ashmem` | android (redroid) | `"true"`: the image needs the ashmem kernel driver; creation fails with a clear message on nodes without it |
 | `orchard.image_username`, `orchard.image_password` | orchard | credentials baked into the Tart image; Orchard connects with them and the agent sets the generated password after boot |
 
 Cuttlefish templates use `images.android.url: local:<dir>` (format `dir`): a directory below the node's `drivers.android.cuttlefish.images_dir` with images fetched via `cvd fetch` (see tb-agent `docs/drivers/android.md`).

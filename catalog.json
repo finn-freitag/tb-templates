@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-22T19:20:58Z",
+  "generated_at": "2026-11-22T20:29:25Z",
   "templates": [
     {
       "id": "almalinux-10",
@@ -91,7 +91,7 @@
     {
       "id": "android-16-redroid",
       "name": "Android 16 (redroid)",
-      "description": "Android in a container via redroid (needs the binder kernel module on the node). Screen via scrcpy over ADB.",
+      "description": "Android in a container via redroid. Needs binder AND the ashmem kernel driver on the node (ashmem was removed in Linux 5.18, so most current kernels lack it; use Android 15 there). Screen via scrcpy over ADB.",
       "version": "1",
       "family": "android",
       "icon": "android",
@@ -126,6 +126,7 @@
         "android.backend": "redroid",
         "redroid.dpi": "420",
         "redroid.height": "1920",
+        "redroid.requires_ashmem": "true",
         "redroid.width": "1080"
       }
     },
