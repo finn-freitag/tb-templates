@@ -21,5 +21,5 @@ images:
     format: container
 params:
   os_variant: archlinux
-  # docker-qemu: passed as BOOT to qemux/qemu; the agent attaches its cidata seed as an extra disk.
-  docker_qemu_boot: https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2
+  # docker-qemu: cloud image booted by qemux/qemu (per-device copy mounted as /boot.<ext>, plus the cidata seed ISO).
+  docker_qemu.boot_image: https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2

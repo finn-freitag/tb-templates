@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-22T15:29:12Z",
+  "generated_at": "2026-11-22T15:45:08Z",
   "templates": [
     {
       "id": "almalinux-10",
@@ -43,7 +43,7 @@
         }
       },
       "params": {
-        "docker_qemu_boot": "https://repo.almalinux.org/almalinux/10/cloud/x86_64/images/AlmaLinux-10-GenericCloud-latest.x86_64.qcow2",
+        "docker_qemu.boot_image": "https://repo.almalinux.org/almalinux/10/cloud/x86_64/images/AlmaLinux-10-GenericCloud-latest.x86_64.qcow2",
         "os_variant": "almalinux10"
       }
     },
@@ -82,11 +82,10 @@
         }
       },
       "params": {
-        "api_level": "35",
-        "backend": "redroid",
-        "dpi": "420",
-        "height": "1920",
-        "width": "1080"
+        "android.backend": "redroid",
+        "redroid.dpi": "420",
+        "redroid.height": "1920",
+        "redroid.width": "1080"
       }
     },
     {
@@ -124,18 +123,17 @@
         }
       },
       "params": {
-        "api_level": "36",
-        "backend": "redroid",
-        "dpi": "420",
-        "height": "1920",
-        "width": "1080"
+        "android.backend": "redroid",
+        "redroid.dpi": "420",
+        "redroid.height": "1920",
+        "redroid.width": "1080"
       }
     },
     {
       "id": "android-cuttlefish",
       "name": "Android (Cuttlefish)",
-      "description": "Google's official virtual Android device (KVM). Host tools run in the cuttlefish-orchestration container; device images are fetched from ci.android.com (cvd fetch) for the given branch and target. Screen in the browser via WebRTC.",
-      "version": "1",
+      "description": "Google's official virtual Android device (KVM), launched with launch_cvd from a Cuttlefish host package on the node. Device images must be fetched once per node (see tb-agent docs/drivers/android.md).",
+      "version": "2",
       "family": "android",
       "icon": "android",
       "guest_profile": "android",
@@ -160,14 +158,12 @@
       ],
       "images": {
         "android": {
-          "url": "docker://us-docker.pkg.dev/android-cuttlefish-artifacts/cuttlefish-orchestration/cuttlefish-orchestration:stable",
-          "format": "container"
+          "url": "local:aosp_cf_x86_64_only_phone",
+          "format": "dir"
         }
       },
       "params": {
-        "backend": "cuttlefish",
-        "cvd_branch": "aosp-android-latest-release",
-        "cvd_target": "aosp_cf_x86_64_only_phone-userdebug"
+        "android.backend": "cuttlefish"
       }
     },
     {
@@ -202,9 +198,6 @@
           "url": "",
           "format": "none"
         }
-      },
-      "params": {
-        "reset": "fastboot"
       }
     },
     {
@@ -248,7 +241,7 @@
         }
       },
       "params": {
-        "docker_qemu_boot": "https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2",
+        "docker_qemu.boot_image": "https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2",
         "os_variant": "archlinux"
       }
     },
@@ -293,7 +286,7 @@
         }
       },
       "params": {
-        "docker_qemu_boot": "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2",
+        "docker_qemu.boot_image": "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2",
         "os_variant": "debian12"
       }
     },
@@ -338,7 +331,7 @@
         }
       },
       "params": {
-        "docker_qemu_boot": "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2",
+        "docker_qemu.boot_image": "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2",
         "os_variant": "debian13"
       }
     },
@@ -383,7 +376,7 @@
         }
       },
       "params": {
-        "docker_qemu_boot": "https://download.fedoraproject.org/pub/fedora/linux/releases/45/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-45-1.4.x86_64.qcow2",
+        "docker_qemu.boot_image": "https://download.fedoraproject.org/pub/fedora/linux/releases/45/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-45-1.4.x86_64.qcow2",
         "os_variant": "fedora-unknown"
       }
     },
@@ -417,10 +410,6 @@
           "url": "",
           "format": "none"
         }
-      },
-      "params": {
-        "requires_supervision": "true",
-        "reset": "erase"
       }
     },
     {
@@ -606,7 +595,8 @@
         }
       },
       "params": {
-        "initial_password": "admin"
+        "orchard.image_password": "admin",
+        "orchard.image_username": "admin"
       }
     },
     {
@@ -644,7 +634,8 @@
         }
       },
       "params": {
-        "initial_password": "admin"
+        "orchard.image_password": "admin",
+        "orchard.image_username": "admin"
       }
     },
     {
@@ -682,7 +673,8 @@
         }
       },
       "params": {
-        "initial_password": "admin"
+        "orchard.image_password": "admin",
+        "orchard.image_username": "admin"
       }
     },
     {
@@ -720,7 +712,8 @@
         }
       },
       "params": {
-        "initial_password": "admin"
+        "orchard.image_password": "admin",
+        "orchard.image_username": "admin"
       }
     },
     {
@@ -764,7 +757,7 @@
         }
       },
       "params": {
-        "docker_qemu_boot": "https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2",
+        "docker_qemu.boot_image": "https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2",
         "os_variant": "rocky10"
       }
     },
@@ -809,7 +802,7 @@
         }
       },
       "params": {
-        "docker_qemu_boot": "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img",
+        "docker_qemu.boot_image": "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img",
         "os_variant": "ubuntu24.04"
       }
     },
@@ -854,7 +847,7 @@
         }
       },
       "params": {
-        "docker_qemu_boot": "https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img",
+        "docker_qemu.boot_image": "https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img",
         "os_variant": "ubuntu26.04"
       }
     },
@@ -900,7 +893,7 @@
         }
       },
       "params": {
-        "dockur_version": "11",
+        "docker_qemu.version": "11",
         "os_variant": "win11",
         "secure_boot": "true",
         "tpm": "true"
@@ -948,7 +941,7 @@
         }
       },
       "params": {
-        "dockur_version": "2025",
+        "docker_qemu.version": "2025",
         "os_variant": "win2k25",
         "secure_boot": "true",
         "tpm": "true"

@@ -21,5 +21,5 @@ images:
     format: container
 params:
   os_variant: ubuntu26.04
-  # docker-qemu: passed as BOOT to qemux/qemu; the agent attaches its cidata seed as an extra disk.
-  docker_qemu_boot: https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img
+  # docker-qemu: cloud image booted by qemux/qemu (per-device copy mounted as /boot.<ext>, plus the cidata seed ISO).
+  docker_qemu.boot_image: https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img

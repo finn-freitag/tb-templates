@@ -17,5 +17,7 @@ images:
     url: oci://ghcr.io/cirruslabs/macos-tahoe-xcode:latest
     format: oci
 params:
-  # Cirrus images ship with admin/admin; the agent changes the password via SSH after boot.
-  initial_password: admin
+  # Cirrus images ship with admin/admin; Orchard connects with these and the
+  # agent's startup script sets the generated password after boot.
+  orchard.image_username: admin
+  orchard.image_password: admin

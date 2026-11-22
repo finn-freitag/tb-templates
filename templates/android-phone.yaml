@@ -15,5 +15,6 @@ images:
   usb-phone:
     url: ""
     format: none
-params:
-  reset: fastboot
+# Reset/setup flow is configured per node (drivers.usb-phone.android in the
+# node config, see tb-agent docs/drivers/usb-phone.md). Device param "serial"
+# selects a specific phone.

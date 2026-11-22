@@ -48,15 +48,25 @@ params:                       # free-form, passed to the driver (TemplateSpec.pa
 
 ## Known params
 
+Params are passed to the driver as `TemplateSpec.params`. Driver-specific keys are namespaced by driver; unknown keys are ignored.
+
 | Param | Used by | Meaning |
 |---|---|---|
 | `os_variant` | libvirt | osinfo hint |
-| `docker_qemu_boot` | docker-qemu | `BOOT` value for qemux/qemu (cloud image URL) |
-| `dockur_version` | docker-qemu | `VERSION` value for dockurr/windows (`11`, `2025`, ...) |
 | `tpm`, `secure_boot` | libvirt (Windows) | `"true"`/`"false"` |
-| `backend` | android | `redroid` or `cuttlefish` |
-| `cvd_branch`, `cvd_target` | android (cuttlefish) | build to fetch |
-| `initial_password` | orchard | default password of the image, changed by the agent after boot |
+| `disk_bus`, `video` | libvirt | disk bus / video model overrides |
+| `docker_qemu.boot_image` | docker-qemu (Linux) | cloud image URL (qcow2/img), fetched by the agent, booted by qemux/qemu as `/boot.<ext>` together with the cidata seed |
+| `docker_qemu.boot_image_sha256` | docker-qemu | optional checksum of the boot image |
+| `docker_qemu.boot` | docker-qemu | qemux built-in OS name (no provisioning), only used without `boot_image` |
+| `docker_qemu.version` | docker-qemu (Windows) | dockur `VERSION` (`11`, `2025`, …) |
+| `docker_qemu.edition`, `docker_qemu.language` | docker-qemu (Windows) | dockur `EDITION`, `LANGUAGE` |
+| `docker_qemu.prepared_storage` | docker-qemu (Windows) | `local:<dir>` with an installed dockur `/storage` snapshot (skips the install; keeps the snapshot's password) |
+| `lxc.type` | lxc | `container` (default) or `virtual-machine` |
+| `android.backend` | android | `redroid` or `cuttlefish` (a device param `backend` overrides it) |
+| `redroid.width`, `redroid.height`, `redroid.dpi` | android (redroid) | display size / density |
+| `orchard.image_username`, `orchard.image_password` | orchard | credentials baked into the Tart image; Orchard connects with them and the agent sets the generated password after boot |
+
+Cuttlefish templates use `images.android.url: local:<dir>` (format `dir`): a directory below the node's `drivers.android.cuttlefish.images_dir` with images fetched via `cvd fetch` (see tb-agent `docs/drivers/android.md`).
 
 ## Image URL schemes
 
@@ -65,6 +75,7 @@ params:                       # free-form, passed to the driver (TemplateSpec.pa
 | `https://…` | downloaded and cached by the agent (checksum verified if `sha256` set) |
 | `local:<file>` | file that must exist in the agent's image directory, e.g. a licensed Windows golden image built with Packer from `packer/` |
 | `docker://<ref>` | container image (docker-qemu, android/redroid) |
+| `local:<dir>` (format `dir`) | android/cuttlefish: image directory below `images_dir` |
 | `oci://<ref>` | OCI VM image (orchard/tart) |
 | `incus:<remote>:<alias>` | Incus/LXC image, e.g. `incus:images:debian/13/cloud` (lxc driver) |
 

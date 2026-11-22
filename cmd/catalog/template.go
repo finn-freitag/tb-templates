@@ -58,7 +58,7 @@ var (
 	readiness = []string{"ssh", "rdp", "adb", "none"}
 	services  = []string{"ssh", "rdp", "vnc", "adb", "http", "https"}
 	arches    = []string{"x86_64", "arm64"}
-	formats   = []string{"qcow2", "raw", "img", "iso", "container", "oci", "none"}
+	formats   = []string{"qcow2", "raw", "img", "iso", "container", "oci", "dir", "none"}
 
 	// URL schemes each driver accepts.
 	driverSchemes = map[string][]string{

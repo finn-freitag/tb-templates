@@ -1,7 +1,7 @@
 id: android-cuttlefish
 name: Android (Cuttlefish)
-description: Google's official virtual Android device (KVM). Host tools run in the cuttlefish-orchestration container; device images are fetched from ci.android.com (cvd fetch) for the given branch and target. Screen in the browser via WebRTC.
-version: "1"
+description: Google's official virtual Android device (KVM), launched with launch_cvd from a Cuttlefish host package on the node. Device images must be fetched once per node (see tb-agent docs/drivers/android.md).
+version: "2"
 family: android
 icon: android
 guest_profile: android
@@ -13,10 +13,13 @@ default_resources: { vcpus: 4, ram_mb: 6144, storage_gb: 32 }
 license: false
 arch: [x86_64]
 images:
+  # Directory below the node's drivers.android.cuttlefish.images_dir that holds
+  # the extracted device images. Fetch them once per node, e.g.:
+  #   cvd fetch --default_build=aosp-android-latest-release/aosp_cf_x86_64_only_phone-userdebug \
+  #     --target_directory=<images_dir>/aosp_cf_x86_64_only_phone
+  # (the same fetch also provides the host package for host_package_dir).
   android:
-    url: docker://us-docker.pkg.dev/android-cuttlefish-artifacts/cuttlefish-orchestration/cuttlefish-orchestration:stable
-    format: container
+    url: local:aosp_cf_x86_64_only_phone
+    format: dir
 params:
-  backend: cuttlefish
-  cvd_branch: aosp-android-latest-release
-  cvd_target: aosp_cf_x86_64_only_phone-userdebug
+  android.backend: cuttlefish

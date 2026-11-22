@@ -20,8 +20,8 @@ images:
     format: qcow2
   # dockur/windows installs Windows unattended from Microsoft's ISO on first
   # start (10-20 min). The agent sets USERNAME/PASSWORD from the device
-  # credentials, VERSION from dockur_version, and passes the product key and
-  # hostname via an /oem install.bat. RDP is enabled by dockur.
+  # credentials, VERSION from docker_qemu.version, KEY from the license and HOST from
+  # the hostname. RDP is enabled by dockur; the ssh service adds OpenSSH via COMMAND.
   docker-qemu:
     url: docker://dockurr/windows:latest
     format: container
@@ -29,4 +29,4 @@ params:
   os_variant: win11
   tpm: "true"
   secure_boot: "true"
-  dockur_version: "11"
+  docker_qemu.version: "11"

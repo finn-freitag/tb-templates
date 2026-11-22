@@ -15,6 +15,6 @@ images:
   usb-phone:
     url: ""
     format: none
-params:
-  reset: erase
-  requires_supervision: "true"
+# Requires a supervised iPhone with Activation Lock off and
+# drivers.usb-phone.ios.reset_command in the node config (e.g. a cfgutil or
+# pymobiledevice3 erase script); see tb-agent docs/drivers/usb-phone.md.
