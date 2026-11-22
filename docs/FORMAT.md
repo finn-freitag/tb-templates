@@ -53,6 +53,8 @@ Params are passed to the driver as `TemplateSpec.params`. Driver-specific keys a
 | Param | Used by | Meaning |
 |---|---|---|
 | `os_variant` | libvirt | osinfo hint |
+| `cloudinit.packages` | libvirt, docker-qemu, lxc (cloud-init profile) | extra packages installed on first boot (space or comma separated) |
+| `cloudinit.script` | libvirt, docker-qemu, lxc (cloud-init profile) | shell script run once as root after the packages; output in `/var/log/tossbox-setup.log`. Combine with `readiness: rdp` (or another service the script starts) so the device only turns ready when the script is done |
 | `tpm`, `secure_boot` | libvirt (Windows) | `"true"`/`"false"` |
 | `disk_bus`, `video` | libvirt | disk bus / video model overrides |
 | `docker_qemu.boot_image` | docker-qemu (Linux) | cloud image URL (qcow2/img), fetched by the agent, booted by qemux/qemu as `/boot.<ext>` together with the cidata seed |

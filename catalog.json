@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-22T18:29:55Z",
+  "generated_at": "2026-11-22T19:20:58Z",
   "templates": [
     {
       "id": "almalinux-10",
@@ -332,6 +332,102 @@
       },
       "params": {
         "docker_qemu.boot_image": "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2",
+        "os_variant": "debian13"
+      }
+    },
+    {
+      "id": "debian-13-gnome",
+      "name": "Debian 13 GNOME Desktop",
+      "description": "Debian 13 with the GNOME desktop, reachable over RDP (xrdp). The first boot installs the desktop (about 10 minutes).",
+      "version": "1",
+      "family": "linux",
+      "icon": "debian",
+      "guest_profile": "cloud-init",
+      "readiness": "rdp",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "rdp",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 2,
+        "ram_mb": 3072,
+        "storage_gb": 16
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 4096,
+        "storage_gb": 25
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "cloudinit.packages": "gnome-core firefox-esr xrdp",
+        "cloudinit.script": "set -eux\nU=$(id -nu 1000)\n# Desktop session for RDP logins (X11; xrdp has no Wayland support).\ncat > /home/$U/.xsession <<'X'\nexport XDG_CURRENT_DESKTOP=GNOME\nexport XDG_SESSION_TYPE=x11\nexec gnome-session\nX\nchown $U: /home/$U/.xsession\ncp /home/$U/.xsession /etc/skel/.xsession\nadduser xrdp ssl-cert\n# No password prompts for colour profiles / repo refresh inside RDP sessions.\nmkdir -p /etc/polkit-1/rules.d\ncat > /etc/polkit-1/rules.d/45-tossbox-desktop.rules <<'X'\npolkit.addRule(function(action, subject) {\n  if (action.id.indexOf(\"org.freedesktop.color-manager.\") === 0 ||\n      action.id === \"org.freedesktop.packagekit.system-sources-refresh\") {\n    return polkit.Result.YES;\n  }\n});\nX\nsystemctl enable xrdp\nsystemctl restart xrdp\n",
+        "docker_qemu.boot_image": "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2",
+        "os_variant": "debian13"
+      }
+    },
+    {
+      "id": "debian-13-kde",
+      "name": "Debian 13 KDE Plasma Desktop",
+      "description": "Debian 13 with the KDE Plasma desktop, reachable over RDP (xrdp). The first boot installs the desktop (about 10 minutes).",
+      "version": "1",
+      "family": "linux",
+      "icon": "debian",
+      "guest_profile": "cloud-init",
+      "readiness": "rdp",
+      "default_user": "tossbox",
+      "supported_services": [
+        "ssh",
+        "rdp",
+        "vnc",
+        "http",
+        "https"
+      ],
+      "min_resources": {
+        "vcpus": 2,
+        "ram_mb": 3072,
+        "storage_gb": 16
+      },
+      "default_resources": {
+        "vcpus": 2,
+        "ram_mb": 4096,
+        "storage_gb": 25
+      },
+      "license": false,
+      "arch": [
+        "x86_64"
+      ],
+      "images": {
+        "docker-qemu": {
+          "url": "docker://qemux/qemu:latest",
+          "format": "container"
+        },
+        "libvirt": {
+          "url": "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2",
+          "format": "qcow2"
+        }
+      },
+      "params": {
+        "cloudinit.packages": "kde-plasma-desktop kwin-x11 firefox-esr xrdp",
+        "cloudinit.script": "set -eux\nU=$(id -nu 1000)\n# Desktop session for RDP logins (X11; xrdp has no Wayland support).\ncat > /home/$U/.xsession <<'X'\nexport XDG_CURRENT_DESKTOP=KDE\nexport XDG_SESSION_TYPE=x11\nexec startplasma-x11\nX\nchown $U: /home/$U/.xsession\ncp /home/$U/.xsession /etc/skel/.xsession\nadduser xrdp ssl-cert\n# No password prompts for colour profiles / repo refresh inside RDP sessions.\nmkdir -p /etc/polkit-1/rules.d\ncat > /etc/polkit-1/rules.d/45-tossbox-desktop.rules <<'X'\npolkit.addRule(function(action, subject) {\n  if (action.id.indexOf(\"org.freedesktop.color-manager.\") === 0 ||\n      action.id === \"org.freedesktop.packagekit.system-sources-refresh\") {\n    return polkit.Result.YES;\n  }\n});\nX\nsystemctl enable xrdp\nsystemctl restart xrdp\n",
+        "docker_qemu.boot_image": "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2",
         "os_variant": "debian13"
       }
     },

@@ -1,0 +1,50 @@
+id: debian-13-kde
+name: Debian 13 KDE Plasma Desktop
+description: Debian 13 with the KDE Plasma desktop, reachable over RDP (xrdp). The first boot installs the desktop (about 10 minutes).
+version: "1"
+family: linux
+icon: debian
+guest_profile: cloud-init
+readiness: rdp                 # ready once xrdp answers, i.e. after the desktop is installed
+default_user: tossbox
+supported_services: [ssh, rdp, vnc, http, https]
+min_resources: { vcpus: 2, ram_mb: 3072, storage_gb: 16 }
+default_resources: { vcpus: 2, ram_mb: 4096, storage_gb: 25 }
+license: false
+arch: [x86_64]
+images:
+  libvirt:
+    url: https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2
+    format: qcow2
+  docker-qemu:
+    url: docker://qemux/qemu:latest
+    format: container
+params:
+  os_variant: debian13
+  # "generic" (not "genericcloud"): full kernel with graphics drivers for the VNC console.
+  docker_qemu.boot_image: https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2
+  cloudinit.packages: kde-plasma-desktop kwin-x11 firefox-esr xrdp
+  cloudinit.script: |
+    set -eux
+    U=$(id -nu 1000)
+    # Desktop session for RDP logins (X11; xrdp has no Wayland support).
+    cat > /home/$U/.xsession <<'X'
+    export XDG_CURRENT_DESKTOP=KDE
+    export XDG_SESSION_TYPE=x11
+    exec startplasma-x11
+    X
+    chown $U: /home/$U/.xsession
+    cp /home/$U/.xsession /etc/skel/.xsession
+    adduser xrdp ssl-cert
+    # No password prompts for colour profiles / repo refresh inside RDP sessions.
+    mkdir -p /etc/polkit-1/rules.d
+    cat > /etc/polkit-1/rules.d/45-tossbox-desktop.rules <<'X'
+    polkit.addRule(function(action, subject) {
+      if (action.id.indexOf("org.freedesktop.color-manager.") === 0 ||
+          action.id === "org.freedesktop.packagekit.system-sources-refresh") {
+        return polkit.Result.YES;
+      }
+    });
+    X
+    systemctl enable xrdp
+    systemctl restart xrdp
