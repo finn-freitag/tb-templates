@@ -62,6 +62,7 @@ Params are passed to the driver as `TemplateSpec.params`. Driver-specific keys a
 | `docker_qemu.edition`, `docker_qemu.language` | docker-qemu (Windows) | dockur `EDITION`, `LANGUAGE` |
 | `docker_qemu.prepared_storage` | docker-qemu (Windows) | `local:<dir>` with an installed dockur `/storage` snapshot (skips the install; keeps the snapshot's password) |
 | `lxc.type` | lxc | `container` (default) or `virtual-machine` |
+| `lxc.packages` | lxc | packages cloud-init installs (space or comma separated); default `openssh-server`, since `images:` cloud variants ship without an SSH server |
 | `android.backend` | android | `redroid` or `cuttlefish` (a device param `backend` overrides it) |
 | `redroid.width`, `redroid.height`, `redroid.dpi` | android (redroid) | display size / density |
 | `orchard.image_username`, `orchard.image_password` | orchard | credentials baked into the Tart image; Orchard connects with them and the agent sets the generated password after boot |

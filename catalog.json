@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-22T15:45:08Z",
+  "generated_at": "2026-11-22T18:25:07Z",
   "templates": [
     {
       "id": "almalinux-10",
@@ -447,6 +447,9 @@
           "url": "incus:images:alpine/3.24/cloud",
           "format": "container"
         }
+      },
+      "params": {
+        "lxc.packages": "openssh"
       }
     },
     {
@@ -484,6 +487,9 @@
           "url": "incus:images:archlinux/current/cloud",
           "format": "container"
         }
+      },
+      "params": {
+        "lxc.packages": "openssh"
       }
     },
     {
