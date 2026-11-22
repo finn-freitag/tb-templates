@@ -1,7 +1,7 @@
 id: chromiumos
 name: ChromiumOS (R159)
 description: Open-source ChromiumOS (amd64-generic base image). Builds without Google API keys only offer guest mode ("Browse as Guest"). Screen via VNC / Guacamole.
-version: "1"
+version: "2"
 family: chromeos
 icon: chromeos
 guest_profile: none
@@ -22,4 +22,5 @@ params:
   disk_bus: virtio
   net_model: virtio
   video: virtio
-  gpu: recommended
+  # No GPU by default: with VirGL, the VNC picture of ChromeOS is garbled
+  # (tested 2026-11-23); software rendering works fine.

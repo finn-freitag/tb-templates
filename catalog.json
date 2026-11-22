@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-22T22:48:14Z",
+  "generated_at": "2026-11-22T23:11:37Z",
   "templates": [
     {
       "id": "almalinux-10",
@@ -352,7 +352,7 @@
       "id": "chromeos-flex",
       "name": "ChromeOS Flex",
       "description": "Google's ChromeOS Flex (stable channel), booted from the recovery image in \"try it\" mode. Sign in with a Google account or as guest. Subject to the ChromeOS Flex terms. Screen via VNC / Guacamole.",
-      "version": "1",
+      "version": "2",
       "family": "chromeos",
       "icon": "chromeos",
       "guest_profile": "none",
@@ -384,7 +384,6 @@
       "params": {
         "disk_bus": "sata",
         "firmware": "efi",
-        "gpu": "recommended",
         "net_model": "e1000e",
         "video": "virtio"
       }
@@ -393,7 +392,7 @@
       "id": "chromiumos",
       "name": "ChromiumOS (R159)",
       "description": "Open-source ChromiumOS (amd64-generic base image). Builds without Google API keys only offer guest mode (\"Browse as Guest\"). Screen via VNC / Guacamole.",
-      "version": "1",
+      "version": "2",
       "family": "chromeos",
       "icon": "chromeos",
       "guest_profile": "none",
@@ -424,7 +423,6 @@
       },
       "params": {
         "disk_bus": "virtio",
-        "gpu": "recommended",
         "net_model": "virtio",
         "video": "virtio"
       }

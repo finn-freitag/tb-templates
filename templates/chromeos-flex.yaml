@@ -1,7 +1,7 @@
 id: chromeos-flex
 name: ChromeOS Flex
 description: Google's ChromeOS Flex (stable channel), booted from the recovery image in "try it" mode. Sign in with a Google account or as guest. Subject to the ChromeOS Flex terms. Screen via VNC / Guacamole.
-version: "1"
+version: "2"
 family: chromeos
 icon: chromeos
 guest_profile: none
@@ -23,4 +23,5 @@ params:
   disk_bus: sata
   net_model: e1000e
   video: virtio
-  gpu: recommended
+  # No GPU by default: with VirGL, the VNC picture of ChromeOS is garbled
+  # (tested 2026-11-23); software rendering works fine.
